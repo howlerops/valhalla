@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs"
+import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs"
 import { execFileSync } from "node:child_process"
 import { homedir } from "node:os"
 import path from "node:path"
@@ -12,6 +12,7 @@ const PACKAGE_ALIASES = [PACKAGE_NAME, OLD_PACKAGE_NAME]
 const CONFIG_DIR = process.env.OPENCODE_CONFIG_DIR || path.join(homedir(), ".config", "opencode")
 const CONFIG_PATH = process.env.OPENCODE_CONFIG_PATH || path.join(CONFIG_DIR, "opencode.json")
 const COMMAND_DIR = process.env.OPENCODE_COMMAND_DIR || path.join(CONFIG_DIR, "command")
+const SKILL_DIR = process.env.OPENCODE_SKILL_DIR || path.join(CONFIG_DIR, "skills", "vegvisir")
 const PACKAGE_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const PACKAGE_JSON = readJson(path.join(PACKAGE_ROOT, "package.json"), { version: "" })
 
@@ -114,15 +115,28 @@ async function writeNativeCommands() {
   for (const [name, command] of Object.entries(config.command)) {
     writeFileSync(path.join(COMMAND_DIR, `${name}.md`), commandMarkdown(command))
   }
+  for (const name of ["bifrost", "heimdall"]) {
+    rmSync(path.join(COMMAND_DIR, `${name}.md`), { force: true })
+  }
   return Object.keys(config.command).sort()
+}
+
+function installSkill() {
+  const source = path.join(PACKAGE_ROOT, "pi", "skills", "vegvisir", "SKILL.md")
+  if (!existsSync(source)) return false
+  mkdirSync(SKILL_DIR, { recursive: true })
+  copyFileSync(source, path.join(SKILL_DIR, "SKILL.md"))
+  return true
 }
 
 ensurePluginConfig()
 ensurePackageDependency()
 const commands = await writeNativeCommands()
+const skillInstalled = installSkill()
 
 console.log(`Installed ${commands.length} OpenCode agentic commands:`)
 for (const name of commands) console.log(`- /${name}`)
+console.log(`Vegvisir skill: ${skillInstalled ? SKILL_DIR : "not found"}`)
 console.log(`Config: ${CONFIG_PATH}`)
 console.log(`Commands: ${COMMAND_DIR}`)
 console.log("Restart OpenCode for slash-command discovery to reload.")

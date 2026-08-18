@@ -34,14 +34,12 @@ Use this process:
 - Review the changed code for correctness, regressions, security issues, race conditions, edge cases, and missing tests.
 - Repair any concrete findings.
 
-6. Baro delegation defaults
-- If baro is installed and the user asks to delegate the goal to baro, default to this command: `baro --llm opencode -m openai/gpt-5.3-codex-spark "$ARGUMENTS"`.
-- This uses baro's OpenCode backend while selecting the configured Codex/OpenAI model through `-m`.
-- If the user wants Pi itself to run the work, stay in this Pi session and follow this workflow directly.
-- For baro phase routing, consider `--parallel`, `--dry-run`, `--no-memory`, `--story-llm opencode`, `--tier-map ...`, or endpoint flags as needed.
+6. Pi execution
+- Run the work directly in this Pi session.
+- If a task needs parallel work, use a Pi-native extension or explicitly managed subprocesses with clear handoffs and isolated artifacts.
 
 7. Finalizer
 - Run the broadest feasible verification for this repo.
 - Summarize completed stories, files changed, verification commands, remaining risks, and PR-readiness.
 
-Baro reference behavior to emulate: one goal becomes an architected plan, a dependency-aware story DAG, parallel execution where safe, critic/self-repair, final verification, and a PR-ready summary.
+The expected result is an architected plan, a dependency-aware story DAG, parallel execution only where safe, critic/self-repair, final verification, and a PR-ready summary.

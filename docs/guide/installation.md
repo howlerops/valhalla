@@ -1,196 +1,93 @@
 # Installation
 
-This guide is written for LLM agents helping a user install HowlerOps Valhalla (`@howlerops/valhalla`) for OpenCode and Pi. Use the deterministic checks and commands below instead of guessing from the website summary.
+HowlerOps Valhalla supports OpenCode and Pi. Both runtimes ship Hugin, Tyr, Munin, Eitri, Vidar, Skuld, Polaris, and the Vegvisir planning skill. Bifrost and Heimdall are not included.
 
-If you are an LLM agent, fetch this file as raw text when possible:
+## Prerequisite
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/howlerops/valhalla/refs/heads/main/docs/guide/installation.md
-```
-
-## What This Package Installs
-
-HowlerOps Valhalla ships one command suite for two runtimes:
-
-| Runtime | Install path | Lands on disk |
-| --- | --- | --- |
-| OpenCode | Install the GitHub package into `~/.config/opencode`, then run its installer | `~/.config/opencode/opencode.json`, `~/.config/opencode/package.json`, `~/.config/opencode/command/*.md` |
-| Pi | `pi install git:github.com/howlerops/valhalla` | Pi package extension and prompt templates |
-| Both | Run both installers | Same command names in both runtimes |
-
-The command suite is `/hugin`, `/tyr`, `/munin`, `/eitri`, `/vidar`, `/skuld`, `/polaris`, and `/bifrost`.
-
-## For Humans
-
-Recommended: paste this prompt into an LLM agent session:
-
-```text
-Install and configure HowlerOps Valhalla by following the instructions here:
-https://raw.githubusercontent.com/howlerops/valhalla/refs/heads/main/docs/guide/installation.md
-```
-
-Direct OpenCode install from GitHub:
+Install [Pi](https://pi.dev) with Node.js 22.19.0 or newer:
 
 ```bash
-npm install --prefix "$HOME/.config/opencode" github:howlerops/valhalla
-node "$HOME/.config/opencode/node_modules/@howlerops/valhalla/scripts/install-opencode.mjs"
+pi --version
+node --version
 ```
 
-Direct Pi install:
+## Install Pi
+
+Install from GitHub:
 
 ```bash
 pi install git:github.com/howlerops/valhalla
 ```
 
-Restart OpenCode after installing or changing plugin config so slash-command discovery reloads.
-
-## For LLM Agents
-
-Follow these steps in order. Ask one concise question only if the user did not specify the target runtime and you cannot safely infer it.
-
-### Step 0: Choose Runtime
-
-Ask which runtime to install for when unknown:
-
-```text
-Which runtime do you want to install HowlerOps Valhalla for? Pick one:
-1. OpenCode
-2. Pi
-3. Both
-```
-
-No subscription, provider, model, or authentication questions are required for this package. It installs commands and prompt templates only; model/provider configuration remains owned by OpenCode or Pi.
-
-### Step 1: Check Prerequisites
-
-For OpenCode:
-
-```bash
-if command -v opencode >/dev/null 2>&1; then
-  opencode --version
-else
-  echo "OpenCode is not installed. Install it first: https://opencode.ai/docs"
-fi
-```
-
-For Pi:
-
-```bash
-if command -v pi >/dev/null 2>&1; then
-  pi --version
-else
-  echo "Pi is not installed or not on PATH. Install Pi first, then rerun this package install."
-fi
-```
-
-If a required runtime is missing, report that prerequisite. Do not install unrelated global tools unless the user explicitly asks.
-
-### Step 2: Install OpenCode Commands
-
-Use the GitHub package installer:
-
-```bash
-npm install --prefix "$HOME/.config/opencode" github:howlerops/valhalla
-node "$HOME/.config/opencode/node_modules/@howlerops/valhalla/scripts/install-opencode.mjs"
-```
-
-From a local checkout, run:
-
-```bash
-node scripts/install-opencode.mjs
-```
-
-After npm publication is available in the user environment, this shorter form is also valid:
-
-```bash
-npx @howlerops/valhalla@latest
-```
-
-The installer is idempotent. It:
-
-- ensures `~/.config/opencode/opencode.json` contains the `@howlerops/valhalla` plugin entry,
-- ensures `~/.config/opencode/package.json` depends on this package,
-- runs `npm install --prefix ~/.config/opencode` when the package is not installed there,
-- writes native slash command markdown files under `~/.config/opencode/command/`.
-
-### Step 3: Install Pi Package
-
-Use the GitHub package reference:
-
-```bash
-pi install git:github.com/howlerops/valhalla
-```
-
-From a local checkout, run:
+Install a local checkout while developing:
 
 ```bash
 pi install /absolute/path/to/valhalla
 ```
 
-After npm publication is available in the user environment, this form is also valid:
+Use `pi install npm:@howlerops/valhalla` after the package is published to npm.
+
+## Install OpenCode
 
 ```bash
-pi install npm:@howlerops/valhalla
+npm install --prefix "$HOME/.config/opencode" github:howlerops/valhalla
+node "$HOME/.config/opencode/node_modules/@howlerops/valhalla/scripts/install-opencode.mjs"
 ```
 
-### Step 4: Verify OpenCode
+Restart OpenCode after installation. The installer is idempotent: it registers the plugin, writes native command files for all seven agents plus `/vegvisir`, and installs the Vegvisir skill for OpenCode.
 
-Check the plugin entry and command files:
+## Verify
 
-```bash
-node -e 'const fs=require("fs"), os=require("os"), path=require("path"); const root=path.join(os.homedir(),".config","opencode"); const cfg=JSON.parse(fs.readFileSync(path.join(root,"opencode.json"),"utf8")); const has=(cfg.plugin||[]).some((entry)=>entry==="@howlerops/valhalla" || (Array.isArray(entry) && entry[0]==="@howlerops/valhalla")); if(!has) throw new Error("missing @howlerops/valhalla plugin"); for (const name of ["hugin","tyr","munin","eitri","vidar","skuld","polaris","bifrost"]) fs.accessSync(path.join(root,"command",`${name}.md`)); console.log("OpenCode commands installed")'
-```
-
-Then restart OpenCode and confirm slash commands are available in the TUI:
-
-```text
-/hugin Plan a small refactor
-/polaris Ship a tiny documentation improvement end to end
-```
-
-### Step 5: Verify Pi
-
-Confirm Pi can see the installed package, then smoke one command in a Pi session:
+Confirm that Pi has registered the package, then execute a harmless planning request:
 
 ```bash
 pi list
+pi -p "/hugin Plan a small refactor"
 ```
+
+In an interactive Pi session, type `/` to confirm these templates are available:
 
 ```text
-/polaris Ship a tiny documentation improvement end to end
+/hugin
+/tyr
+/munin
+/eitri
+/vidar
+/skuld
+/polaris
+/vegvisir
 ```
 
-If `pi list` is unavailable in the installed Pi version, use Pi's package-management UI or help output to confirm the package is installed.
+Verify the planning skill in Pi:
 
-### Step 6: Explain First Use
+```text
+/skill:vegvisir Define the destination for a multi-session migration
+```
 
-After verification, tell the user:
+`/vegvisir` plans only. It creates a map of decisions and hands off to specification work; it does not implement the destination.
 
-1. Use `/hugin` when they want a plan before edits.
-2. Use `/tyr` for one goal implemented end to end.
-3. Use `/munin` for measurable prompt, command, skill, agent, or research optimization.
-4. Use `/eitri` to create scoped OpenCode/Pi-native agents, workflows, commands, skills, or tools.
-5. Use `/vidar` when the agent must keep looping implementation and review repair until complete.
-6. Use `/skuld` for PR-style review and repair loops.
-7. Use `/polaris` for the full path from context research through final review.
-8. Use `/bifrost` only for the secure remote OpenCode portal workflow.
+Verify OpenCode by restarting it and entering:
+
+```text
+/vegvisir Define the destination for a multi-session migration
+```
+
+The `/vegvisir` command loads and applies the Vegvisir skill that the installer placed in OpenCode's global skills directory.
 
 ## Troubleshooting
 
 | Symptom | Fix |
 | --- | --- |
-| OpenCode slash commands do not appear | Restart OpenCode. If still missing, rerun the GitHub package install and installer commands above to materialize native command files. |
-| `npm install --prefix ~/.config/opencode` fails | Check npm/network output, then rerun the installer. The installer is idempotent. |
-| Local checkout install writes `file:` dependency | Expected for `node scripts/install-opencode.mjs`; use `npx @howlerops/valhalla@latest` for package installs. |
-| Pi command is missing | Re-run `pi install git:github.com/howlerops/valhalla` and restart the Pi session if required. |
-| `/bifrost start` does not attach to the active TUI | Default `auto` mode falls back to a managed Web portal when active-server context is missing or stale, and reports the fallback reason. Configure Bifrost with `serverMode: "active"` when missing/stale active context should fail instead. |
+| `pi` is not found | Install Pi from [pi.dev](https://pi.dev), then reopen the shell. |
+| The package or commands are missing | Run `pi list`, reinstall with `pi install git:github.com/howlerops/valhalla`, and restart Pi. |
+| Project-local resources are not loaded | Review the package and approve the project when Pi prompts for trust. |
+| Vegvisir is missing | Reinstall the package, then use `/skill:vegvisir ...` in Pi or `/vegvisir ...` in OpenCode. |
+| OpenCode commands are missing | Rerun the OpenCode installer, then restart OpenCode. |
 
-## Uninstall
+## Remove
 
-OpenCode removal is manual:
+```bash
+pi remove git:github.com/howlerops/valhalla
+```
 
-1. Remove the `@howlerops/valhalla` entry from `~/.config/opencode/opencode.json`.
-2. Remove generated command files from `~/.config/opencode/command/` if desired.
-3. Remove the dependency from `~/.config/opencode/package.json` and run `npm install --prefix ~/.config/opencode`.
-
-For Pi, use the package removal command supported by the installed Pi version.
+For local Pi installs, remove the same path passed to `pi install`. For OpenCode, remove the package entry from `~/.config/opencode/opencode.json`, the generated command files under `~/.config/opencode/command/`, and the Vegvisir skill under `~/.config/opencode/skills/vegvisir/`.

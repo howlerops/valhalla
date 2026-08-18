@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="HowlerOps Valhalla: agentic slash commands for OpenCode and Pi to plan, execute, research, create, persist, review, remote access, and orchestrate.">
+    <meta name="description" content="HowlerOps Valhalla: OpenCode and Pi agents for planning, execution, research, review, and orchestration.">
     <meta property="og:title" content="HowlerOps Valhalla">
-    <meta property="og:description" content="Agentic slash commands for OpenCode and Pi.">
+    <meta property="og:description" content="OpenCode and Pi agents for deliberate software delivery.">
     <meta property="og:image" content="assets/howlerops-transparent.png">
     <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
     <link rel="icon" href="assets/favicon-192.png" sizes="192x192" type="image/png">
@@ -379,7 +379,7 @@
           <div>
             <div class="eyebrow">Norse names. North-star orchestration.</div>
             <h1>Agentic command loops for OpenCode and Pi.</h1>
-            <p class="lead">A compact slash-command suite that plans, executes, researches, crafts agents, persists through implementation, reviews diffs, opens secure remote portals, and orchestrates the whole delivery path.</p>
+            <p class="lead">A cross-harness suite that plans, executes, researches, crafts agents, persists through implementation, reviews diffs, maps uncertain multi-session work, and orchestrates delivery.</p>
             <div class="actions">
               <a class="button primary" href="#install">Install</a>
               <a class="button" href="#commands">Explore Commands</a>
@@ -393,25 +393,25 @@
 <span class="comment"># execute one goal</span>
 <span class="prompt">/tyr</span> Add role-based JWT auth
 
-<span class="comment"># open a remote portal</span>
-<span class="prompt">/bifrost</span> start</pre>
+<span class="comment"># map an uncertain multi-session effort</span>
+<span class="prompt">/vegvisir</span> Plan the billing migration</pre>
           </div>
         </section>
 
         <section id="commands">
           <div class="section-head">
-            <h2>Eight Commands</h2>
-            <p>Short, spellable names with distinct jobs. Use one command directly, or let Polaris coordinate the delivery suite.</p>
+            <h2>Seven Agents, One Skill</h2>
+            <p>Short, spellable names with distinct jobs. Use an agent directly, let Polaris coordinate delivery, or invoke Vegvisir for uncertain multi-session planning.</p>
           </div>
           <div class="grid">
             <article class="card"><div class="command">/hugin</div><div class="role">Plan</div><p>Deep context research, story DAGs, risk register, verification matrix, and review gates.</p></article>
             <article class="card"><div class="command">/tyr</div><div class="role">Execute</div><p>One goal implemented end to end with architecture, verification, critic repair, and summary.</p></article>
             <article class="card"><div class="command">/munin</div><div class="role">Research</div><p>Baseline, hypothesis, experiment, metric comparison, keep/discard decision, and ledger.</p></article>
-            <article class="card"><div class="command">/eitri</div><div class="role">Create</div><p>Craft opencode-native agents, workflows, commands, skills, or scoped tools from natural language.</p></article>
+            <article class="card"><div class="command">/eitri</div><div class="role">Create</div><p>Craft harness-native agents, workflows, commands, skills, or scoped tools from natural language.</p></article>
             <article class="card"><div class="command">/vidar</div><div class="role">Persist</div><p>Repeat implementation and review repair loops until the task is complete or truly blocked.</p></article>
             <article class="card"><div class="command">/skuld</div><div class="role">Review</div><p>PR-style findings, targeted fixes, re-verification, and repeated review until clean.</p></article>
             <article class="card"><div class="command">/polaris</div><div class="role">Orchestrate</div><p>The north-star command: plan, create, research, implement, review, and repair.</p></article>
-            <article class="card"><div class="command">/bifrost</div><div class="role">Remote</div><p>Expose the active OpenCode server for no-gap sync through a secure Cloudflare or ngrok tunnel; separate Web mode is explicit.</p></article>
+            <article class="card"><div class="command">/vegvisir</div><div class="role">Map</div><p>Chart uncertain multi-session work as decision tickets, then hand off to specification work without implementing.</p></article>
           </div>
         </section>
 
@@ -433,7 +433,7 @@
         <section id="install">
           <div class="section-head">
             <h2>Install</h2>
-            <p>Use the agent-assisted path for the fewest missed steps, or install directly from GitHub, npm, or a local checkout. OpenCode requires a restart after plugin config changes.</p>
+            <p>Install directly from GitHub, npm, or a local checkout. Pi discovers the package resources after installation.</p>
           </div>
           <div class="install">
             <div class="panel wide">
@@ -444,10 +444,7 @@ https://raw.githubusercontent.com/howlerops/valhalla/refs/heads/main/docs/guide/
             <div class="panel">
               <h3>OpenCode</h3>
               <pre>npm install --prefix "$HOME/.config/opencode" github:howlerops/valhalla
-node "$HOME/.config/opencode/node_modules/@howlerops/valhalla/scripts/install-opencode.mjs"
-
-# local checkout
-node scripts/install-opencode.mjs</pre>
+node "$HOME/.config/opencode/node_modules/@howlerops/valhalla/scripts/install-opencode.mjs"</pre>
             </div>
             <div class="panel">
               <h3>Pi</h3>
@@ -456,13 +453,21 @@ node scripts/install-opencode.mjs</pre>
 # then try
 /polaris Ship the feature end to end</pre>
             </div>
+            <div class="panel">
+              <h3>Vegvisir</h3>
+              <pre># OpenCode
+/vegvisir Plan a multi-session migration
+
+# Pi
+/skill:vegvisir Plan a multi-session migration</pre>
+            </div>
           </div>
-          <div class="note"><strong>One package, two runtimes.</strong> This page covers both OpenCode and Pi because they install the same command suite. The full raw guide is available at <a href="guide/installation.md">docs/guide/installation.md</a> for LLM agents and manual troubleshooting.</div>
+          <div class="note"><strong>One package, two harnesses.</strong> The seven agent workflows run in OpenCode and Pi; Vegvisir is a planning skill in both runtimes (`/vegvisir` in OpenCode, `/skill:vegvisir` in Pi). The full guide is available at <a href="guide/installation.md">docs/guide/installation.md</a> for installation and troubleshooting.</div>
         </section>
       </main>
 
       <footer>
-        MIT licensed. Built for OpenCode plugin hooks and Pi extension prompts.
+        MIT licensed. Built for OpenCode and the Pi coding-agent harness.
       </footer>
     </div>
   </body>
