@@ -454,6 +454,13 @@ node "$HOME/.config/opencode/node_modules/@howlerops/valhalla/scripts/install-op
 /polaris Ship the feature end to end</pre>
             </div>
             <div class="panel">
+              <h3>Prime Agent</h3>
+              <pre>prime-agent package install git:github.com/howlerops/valhalla
+
+# then try
+/polaris Ship the feature end to end</pre>
+            </div>
+            <div class="panel">
               <h3>Vegvisir</h3>
               <pre># OpenCode
 /vegvisir Plan a multi-session migration
@@ -462,12 +469,12 @@ node "$HOME/.config/opencode/node_modules/@howlerops/valhalla/scripts/install-op
 /skill:vegvisir Plan a multi-session migration</pre>
             </div>
           </div>
-          <div class="note"><strong>One package, two harnesses.</strong> The seven agent workflows run in OpenCode and Pi; Vegvisir is a planning skill in both runtimes (`/vegvisir` in OpenCode, `/skill:vegvisir` in Pi). The full guide is available at <a href="guide/installation.md">docs/guide/installation.md</a> for installation and troubleshooting.</div>
+          <div class="note"><strong>One package, three harnesses.</strong> The seven agent workflows run in OpenCode, Pi, and Prime Agent; Vegvisir is a planning skill in all three runtimes (`/vegvisir` in OpenCode, `/skill:vegvisir` in Pi and Prime Agent). Prime Agent reads the same `pi` package key, so it installs unchanged. The full guide is available at <a href="guide/installation.md">docs/guide/installation.md</a> for installation and troubleshooting.</div>
         </section>
       </main>
 
       <footer>
-        MIT licensed. Built for OpenCode and the Pi coding-agent harness.
+        MIT licensed. Built for OpenCode, the Pi coding-agent harness, and Prime Agent.
       </footer>
     </div>
   </body>
