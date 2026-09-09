@@ -22,4 +22,16 @@ for (const name of commands) {
   assert.doesNotMatch(output.parts[0].text, /\$ARGUMENTS/)
 }
 
+// Tyr emits a baro delegation command into its prompt. baro exits 2 on any unknown
+// flag, so these must stay in step with the baro CLI (verified against baro-ai 0.109.0).
+const tyr = config.command.tyr.template
+assert.match(tyr, /baro --llm opencode --model /)
+assert.doesNotMatch(tyr, /\bbaro .*? -m\b/)
+for (const flag of ["--story-llm", "--tier-map", "--openai-endpoint", "--parallel", "--no-memory"]) {
+  assert.ok(tyr.includes(flag), `tyr template should reference baro flag ${flag}`)
+}
+for (const gone of ["--openai-base-url", "--dry-run"]) {
+  assert.ok(!tyr.includes(gone), `tyr template must not reference removed baro flag ${gone}`)
+}
+
 console.log("OpenCode plugin tests passed")

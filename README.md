@@ -41,6 +41,18 @@ pi -p "/hugin Plan a small refactor"
 
 Pi loads the package's prompt templates and Vegvisir skill. Trust project-local packages only after reviewing their contents.
 
+## Install Prime Agent
+
+[Prime Agent](https://github.com/PrimeIntellect-ai/prime-agent) is a fork of pi-mono that reads the same `pi` package key, so the same package works there:
+
+```bash
+prime-agent package install git:github.com/howlerops/valhalla
+prime-agent package list
+prime-agent -p "/hugin Plan a small refactor"
+```
+
+All seven agents and `/skill:vegvisir` were verified against Prime Agent 0.9.4. Note the config directory is `PRIME_AGENT_CODING_AGENT_DIR` and there is no `--approve` flag.
+
 Full installation and troubleshooting guide: [`docs/guide/installation.md`](docs/guide/installation.md).
 
 ## Install OpenCode

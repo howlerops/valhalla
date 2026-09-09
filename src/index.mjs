@@ -31,7 +31,10 @@ const DEFAULT_MEMORY_OPTIONS = {
   agentdb: {
     enabled: false,
     name: "agentdb",
-    command: ["npx", "-y", "agentdb@latest", "mcp", "start"],
+    // Pinned rather than @latest: agentdb's only maintained line is a fast-moving
+    // 3.0.0 alpha (20 releases; last 2026-07-30) and this runs via npx -y on the
+    // user's machine. Override with the `command` option to track a different build.
+    command: ["npx", "-y", "agentdb@3.0.0-alpha.20", "mcp", "start"],
     dbPath: "",
     overwrite: false,
   },

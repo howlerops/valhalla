@@ -1,12 +1,15 @@
 import assert from "node:assert/strict"
 import { spawn } from "node:child_process"
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises"
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises"
 import { createServer } from "node:http"
 import { tmpdir } from "node:os"
 import path from "node:path"
 
 const repoRoot = path.resolve(new URL("..", import.meta.url).pathname)
-const pi = path.join(repoRoot, "node_modules", "@earendil-works", "pi-coding-agent", "dist", "cli.js")
+const piRoot = path.join(repoRoot, "node_modules", "@earendil-works", "pi-coding-agent")
+// Resolve the CLI from the package's own bin field; its path has moved between releases.
+const piBin = JSON.parse(await readFile(path.join(piRoot, "package.json"), "utf8")).bin.pi
+const pi = path.join(piRoot, piBin)
 const prompts = [
   ["hugin", "Create a Hugin anchor plan"],
   ["tyr", "baro-inspired workflow in Pi"],

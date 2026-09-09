@@ -27,6 +27,31 @@ pi install /absolute/path/to/valhalla
 
 Use `pi install npm:@howlerops/valhalla` after the package is published to npm.
 
+## Install Prime Agent
+
+Prime Agent (PrimeIntellect) is a fork of pi-mono and reads the same `pi` key in
+`package.json`, so this package installs unchanged. Only the CLI name and the
+install verb differ:
+
+```bash
+prime-agent package install git:github.com/howlerops/valhalla
+```
+
+Install a local checkout while developing:
+
+```bash
+prime-agent package install /absolute/path/to/valhalla
+```
+
+Verify with `prime-agent package list`, then run `prime-agent -p "/hugin Plan a small refactor"`.
+
+Two differences from Pi are worth knowing:
+
+- The config directory is `PRIME_AGENT_CODING_AGENT_DIR` (default `~/.prime/agent`), not `PI_CODING_AGENT_DIR`.
+- Prime Agent has no `--approve` flag; it does not need one to load this package.
+
+All seven agents and `/skill:vegvisir` were verified against Prime Agent 0.9.4.
+
 ## Install OpenCode
 
 ```bash
