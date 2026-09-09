@@ -14,7 +14,7 @@ function normalizeOptions(options = {}) {
 
 function baroCommand(options) {
   const args = ["baro", "--llm", options.baroBackend]
-  if (options.baroBackend === "opencode" && options.baroModel) args.push("-m", options.baroModel)
+  if (options.baroBackend === "opencode" && options.baroModel) args.push("--model", options.baroModel)
   if (options.baroExtraArgs) args.push(options.baroExtraArgs)
   args.push('"$ARGUMENTS"')
   return args.join(" ")
@@ -55,9 +55,9 @@ Use this process:
 
 6. Baro delegation defaults
 - If baro is installed and the user asks to delegate the goal to baro, default to this configured command: \`${command}\`.
-- This setup uses baro's OpenCode backend so baro executes through opencode while the \`-m\` value selects the configured Codex/OpenAI model.
+- This setup uses baro's OpenCode backend so baro executes through opencode while the \`--model\` value selects the configured Codex/OpenAI model.
 - Change the default by editing this plugin's options in \`opencode.json\`: \`baroBackend\`, \`baroModel\`, or \`baroExtraArgs\`.
-- Use \`baroExtraArgs\` for phase routing or endpoints, such as \`--story-llm opencode\`, \`--tier-map ...\`, \`--openai-base-url ...\`, \`--parallel ...\`, \`--dry-run\`, or \`--no-memory\`.
+- Use \`baroExtraArgs\` for phase routing or endpoints, such as \`--story-llm opencode\`, \`--tier-map ...\`, \`--openai-endpoint ...\`, \`--parallel ...\`, or \`--no-memory\`.
 
 7. Finalizer
 - Run the broadest feasible verification for this repo.
