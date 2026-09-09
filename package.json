@@ -70,7 +70,7 @@
     "agentic"
   ],
   "devDependencies": {
-    "@opencode-ai/plugin": "1.17.11",
-    "@earendil-works/pi-coding-agent": "0.84.2"
+    "@earendil-works/pi-coding-agent": "0.85.1",
+    "@opencode-ai/plugin": "1.18.30"
   }
 }
